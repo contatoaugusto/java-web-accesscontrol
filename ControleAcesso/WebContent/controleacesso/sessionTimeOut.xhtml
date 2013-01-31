@@ -6,9 +6,10 @@
    xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
-   <h:form prependId="false">
+	<script type='text/javascript' src="date.js"></script>  
+	<h:form prependId="false">
       <p:idleMonitor
-         timeout="#{session.maxInactiveInterval * 1000 - 125000}"
+         timeout="#{session.maxInactiveInterval * 1000 - 60000}"
          onidle="startIdleMonitor();doTimer()" rendered="#{(request.remoteUser != null)}"/>
 
 <!-- 		<p:panel id="timeoutSession" style="position: fixed; top: 5%; right: 5%; margin-top: 0px; margin-right: 0px;" -->
@@ -34,7 +35,9 @@
    </h:form>
    
    <script type="text/javascript">
-      var TIME = 120; // in seconds
+   	  // Via de regra o tempo informado em sessio-timeout, no web.xml de configuração da aplicação é em minutos.
+   	  // Normalmente 30 minutos	
+      var TIME = #{session.maxInactiveInterval} ; //120; // in seconds 
       var countTimer = TIME;
       var processTimer;
       var timer_is_on = 0;
@@ -47,11 +50,11 @@
 
       function startIdleMonitor() {
       	countTimer = TIME;
-      	txtCountDown.innerHTML = countTimer;
+      	txtCountDown.innerHTML = (new Date).clearTime().addSeconds(countTimer).toString('H:mm:ss');
       	//timeoutDialog.show();
       }
       function timedCount() {
-      	txtCountDown.innerHTML = countTimer;
+      	txtCountDown.innerHTML = (new Date).clearTime().addSeconds(countTimer).toString('H:mm:ss');
       	if (countTimer == 0) {
       		stopCount();
       		window.location.href = redirectPage;
