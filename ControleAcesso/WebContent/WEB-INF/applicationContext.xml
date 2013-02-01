@@ -17,6 +17,7 @@
         
 		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
         <intercept-url pattern="/login.jsf" filters="none"/>
+        <logout logout-success-url="/login.jsf" />
 		
 		<intercept-url pattern="/index.jsf" access="hasRole('index.jsf')" />
 		<intercept-url pattern="/testeacesso.jsf" access="hasRole('testeacesso.jsf')"/>
