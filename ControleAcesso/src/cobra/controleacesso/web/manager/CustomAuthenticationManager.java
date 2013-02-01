@@ -29,12 +29,11 @@ import cobra.controleacesso.web.modelo.Usuario;
 import cobra.controleacesso.web.util.Constantes;
 
 /**
- * A custom authentication manager that allows access if the user details exist
- * in the database and if the username and password are not the same. Otherwise,
- * throw a {@link BadCredentialsException}
- */
-/**
- * @author toninho
+ * Essa classe faz a implementa√ß√£o de autentica√ß√£o, o que permite acessar detalhes do usuario existente
+ * no banco de dados e se o usuario e senha n√£o s√£o iguais. Entre outras coisas dispara uma,
+ * {@link BadCredentialsException}
+ *
+ * @author Antonio Augusto
  * 
  */
 public class CustomAuthenticationManager implements AuthenticationManager {
@@ -42,18 +41,14 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	private static final Log log = LogFactory
 			.getLog(CustomAuthenticationManager.class);
 
-	// Our custom DAO layer
 	private UsuarioDao usuarioDao = new UsuarioDao();
 
-	// We need an Md5 encoder since our passwords in the database are Md5
-	// encoded.
-	//private Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
 	private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder();
 
 	public Authentication authenticate(Authentication auth)
 			throws AuthenticationException {
 
-		log.debug("Na classe CustomAuthenticationManager. Iniciando o mÈtodo authenticate()");
+		log.debug("Na classe CustomAuthenticationManager. Iniciando o m√©todo authenticate()");
 
 		Usuario usuario = null;
 		
@@ -63,8 +58,8 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 			usuario = usuariohome.findUsuarioByName(auth.getName());
 
 			if (usuario == null) {
-				log.error("Usu·rio " + auth.getName() + " n„o encontrado!");
-				throw new BadCredentialsException("Usu·rio " + auth.getName() + " n„o encontrado!");
+				log.error("Usu√°rio " + auth.getName() + " n√£o encontrado!");
+				throw new BadCredentialsException("Usu√°rio " + auth.getName() + " n√£o encontrado!");
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -72,7 +67,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 		}
 
 		// Comparar senhas
-		// Assegura decodificar a senha antes de comparar
+		// Assegura que decodifica a senha antes de comparar
 		if (passwordEncoder.isPasswordValid(usuario.getDsSenha(),
 				(String) auth.getCredentials(), null) == false) {
 			log.error("Senha Iconrreta!");
@@ -82,21 +77,20 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 		// Here's the main logic of this custom authentication manager
 		// Username and password must be the same to authenticate
 		if (auth.getName().equals(auth.getCredentials()) == true) {
-			// logger.debug("Entered username and password are the same!");
-			throw new BadCredentialsException("O usu·rio informado e a senha s„o iguais!");
+			log.debug("O usu√°rio informado e a senha s√£o iguais!");
+			throw new BadCredentialsException("O usu√°rio informado e a senha s√£o iguais!");
 
 		} else {
-			// Na nossa abordagem, se chegou atÈ aqui È porque o usuario tem
-			// acesso ao recurso solicitado e pode prosseguir,
-			// Ou seja, o acesso È sempre 1, como admin
-			log.debug("Todos os dados do usu·rio est„o corretos e pronto pra prosseguir");
+			// Em nossa abordagem, se chegou at√© aqui √© porque o usuario tem
+			// acesso ao recurso solicitado e pode prosseguir.
+			log.debug("Todos os dados do usu√°rio est√£o corretos e pronto pra prosseguir");
 			return new UsernamePasswordAuthenticationToken(auth.getName(),
-					auth.getCredentials(), getAuthoritiesByUser(usuario) /* getAuthorities ( recursoRequisitado)*/);
+					auth.getCredentials(), getAuthoritiesByUser(usuario));
 		}
 	}
 
 	/**
-	 * Retorna tipo ROLE dependendo do nÌvel de acesso, onde o nÌvel de acesso È
+	 * Retorna tipo ROLE dependendo do n√≠vel de acesso, onde o n√≠vel de acesso √©
 	 * um Integer.
 	 * 
 	 * @param access
@@ -125,7 +119,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	}
 
 	/**
-	 * A partir de um linck, ou recurso adiciona a permiss„o de acesso.
+	 * A partir de um link, ou recurso verifica se est√° configurado e adiciona a permiss√£o de acesso.
 	 * 
 	 * @param linkrecurso
 	 * @return
@@ -143,15 +137,13 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	}
 
 	/**
-	 * Preenche lista de autorizaÁıes conforme recursos a que o usuario tenha
-	 * acesso.
-	 * 
+	 * Preenche lista de autoriza√ß√µes conforme recursos a que o usuario tenha acesso.
+	 * Retorna
 	 * @param username
 	 * @return Collection<GrantedAuthority>
 	 */
 	public Collection<GrantedAuthority> getAuthoritiesByUser(Usuario usuario) {
 
-		// Create a list of grants for this user
 		List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
 
 		for (Perfil perfil : usuario.getTbperfils()) {
