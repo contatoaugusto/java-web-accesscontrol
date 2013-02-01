@@ -9,35 +9,35 @@
 	<script type='text/javascript' src="date.js"></script>  
 	<h:form prependId="false">
       <p:idleMonitor
-         timeout="#{session.maxInactiveInterval * 1000 - 60000}"
-         onidle="startIdleMonitor();doTimer()" rendered="#{(request.remoteUser != null)}"/>
-
-<!-- 		<p:panel id="timeoutSession" style="position: fixed; top: 5%; right: 5%; margin-top: 0px; margin-right: 0px;" -->
-<!--          header="#{request.remoteUser}" -->
-<!--          widgetVar="timeoutDialog" -->
-<!--          showEffect="fade" hideEffect="fade" -->
-<!--          modal="false" -->
-<!--          width="150" -->
-<!--          height="60" -->
-<!--          closable="false" -->
-<!--          draggable="true" -->
-<!--          resizable="false" -->
-<!--          appendToBody="true" -->
-<!--          onHide="stopCount()" -->
-<!--          onShow="doTimer()" > -->
-               #{msg['logoff.soon.1']}
-               Usuário: #{request.remoteUser == null ? 'visitante' : request.remoteUser} <span id="dialog-countdown" style="font-weight: bold"></span>
-               #{msg['logoff.soon.2']}
+         timeout="#{100}"
+         onidle="startIdleMonitor()" rendered="#{(request.remoteUser != null)}"/>
+       #{msg['logoff.soon.1']}
+       <span id="usuario" style="font-weight: bold ; font-size:12px;"> #{request.remoteUser == null ? 'visitante' : request.remoteUser} #{request.remoteUser == null ? '' : ' - Sessão expira em: '} </span>
+       <span id="dialog-countdown" style="font-weight: bold ; font-size:12px;"></span>
+       &nbsp;&nbsp;
+       <h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+           <h:outputText value="Sair" styleClass="button"/>
+       </h:outputLink>
+       #{msg['logoff.soon.2']}
         
-         <p style="font-weight: bold;">#{msg['move.cursor']}</p>
-<!--       </p:panel> -->
-      <p:remoteCommand name="keepAlive" actionListener="#{auth.keepSessionAlive}" />
+        <p style="font-weight: bold;">#{msg['move.cursor']}</p>
+      	<p:dialog header="Sessão Expirada!" 
+      		resizable="false"  
+            widgetVar="idleDialog" 
+            modal="true" 
+            width="400" 
+            appendToBody="true" 
+            closable="false"
+            draggable="false">  
+		    <h:outputText value="Você será redirecionada para página de login." />  
+			<p:commandButton id="continuar" value="Continuar" onclick="idleDialog.hide();redirecionaPaginaLogin()" type="button" />
+		</p:dialog>
    </h:form>
    
    <script type="text/javascript">
    	  // Via de regra o tempo informado em sessio-timeout, no web.xml de configuração da aplicação é em minutos.
    	  // Normalmente 30 minutos	
-      var TIME = #{session.maxInactiveInterval} ; //120; // in seconds 
+      var TIME = #{session.maxInactiveInterval} ; // em segundos 
       var countTimer = TIME;
       var processTimer;
       var timer_is_on = 0;
@@ -49,20 +49,26 @@
       	txtCountDown = document.getElementById(countDownDiv);
 
       function startIdleMonitor() {
-      	countTimer = TIME;
-      	txtCountDown.innerHTML = (new Date).clearTime().addSeconds(countTimer).toString('H:mm:ss');
-      	//timeoutDialog.show();
+          countTimer = TIME;
+          txtCountDown.innerHTML = (new Date).clearTime().addSeconds(countTimer).toString('H:mm:ss');
+      	  //timeoutDialog.show();
+      	  doTimer();
       }
       function timedCount() {
-      	txtCountDown.innerHTML = (new Date).clearTime().addSeconds(countTimer).toString('H:mm:ss');
+        txtCountDown.innerHTML = (new Date).clearTime().addSeconds(countTimer).toString('H:mm:ss');
       	if (countTimer == 0) {
+          	idleDialog.show();
       		stopCount();
-      		window.location.href = redirectPage;
-      		return;
-      	}
+        }
       	countTimer = countTimer - 1;
       	processTimer = setTimeout("timedCount()", 1000);
       }
+
+	function redirecionaPaginaLogin (){
+		window.location.href = redirectPage;
+  		return;
+	}
+      
       function doTimer() {
       	if (!timer_is_on) {
       		timer_is_on = 1;
