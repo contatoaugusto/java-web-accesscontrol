@@ -12,7 +12,7 @@
          timeout="#{100}"
          onidle="startIdleMonitor()" rendered="#{(request.remoteUser != null)}"/>
        #{msg['logoff.soon.1']}
-       <span id="usuario" style="font-weight: bold ; font-size:12px;"> #{request.remoteUser == null ? 'visitante' : request.remoteUser} #{request.remoteUser == null ? '' : ' - Sessão expira em: '} </span>
+       <span id="usuario" style="font-weight: bold ; font-size:12px;"> #{request.remoteUser == null ? 'Visitante' : request.remoteUser} #{request.remoteUser == null ? '' : ' - Sessão expira em: '} </span>
        <span id="dialog-countdown" style="font-weight: bold ; font-size:12px;"></span>
        &nbsp;&nbsp;
        <h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
