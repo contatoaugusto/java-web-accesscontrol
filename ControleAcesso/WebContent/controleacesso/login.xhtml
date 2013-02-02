@@ -5,15 +5,15 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Bem vindo ao de acesso!</title>
-        <link type="text/css" rel="stylesheet" href="dot-luv/skin.css"/>
+        <title>Controle de acesso!</title>
     </h:head>
-    <h:body style="background-image:url('http://pwes.rocklin.k12.ca.us/j0439526.jpg');background-position: 50% 0%;background-repeat: no-repeat">
+    <h:body style="background-image:url('controleacesso.jpg');background-position: 50% 0%;background-repeat: no-repeat">
         <p:dialog header="Login" visible="true" closable="false" draggable="false" resizable="false" width="420">
             <center>
                 <h:outputText value="Usuário ou senha incorretos!" rendered="#{param.erro}" style="color: darkred"/>
+            	<p:growl id="msg" showDetail="true" escape="false" /> 
             </center>
-            <form action="j_spring_security_check" method="post">
+            <form action="#{facesContext.externalContext.requestContextPath}/j_spring_security_check" method="post">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="j_username" value="Username: *" /> 
                     <h:inputText id="j_username" required="true"/>

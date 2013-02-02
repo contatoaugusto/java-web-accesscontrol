@@ -16,8 +16,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class FileHandler {
 
-	private static final Log log = LogFactory
-			.getLog(FileHandler.class);
+	private static final Log log = LogFactory.getLog(FileHandler.class);
 	
 	public void criaInterceptUrlXML(String link, String filePathFileName) {
 		
@@ -164,8 +163,8 @@ public class FileHandler {
 					conteudoArquivo.append(System.getProperty("line.separator"));
 					hasLink = true;
 				}else {
-				conteudoArquivo.append(line);
-				conteudoArquivo.append(System.getProperty("line.separator"));
+					conteudoArquivo.append(line);
+					conteudoArquivo.append(System.getProperty("line.separator"));
 				}
 			}
 			in.close();

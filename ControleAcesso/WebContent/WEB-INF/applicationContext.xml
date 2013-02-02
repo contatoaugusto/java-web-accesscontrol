@@ -14,10 +14,9 @@
  
      <http auto-config="false" use-expressions="true" entry-point-ref="authenticationEntryPoint">
         <!-- 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="customFilter" /> -->
-        
-		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
-        <intercept-url pattern="/login.jsf" filters="none"/>
-        <logout logout-success-url="/login.jsf" />
+        <custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
+        <intercept-url pattern="/controleacesso/login.jsf" filters="none"/>
+        <logout logout-success-url="/controleacesso/login.jsf" />
 		
 		<intercept-url pattern="/index.jsf" access="hasRole('index.jsf')" />
 		<intercept-url pattern="/testeacesso.jsf" access="hasRole('testeacesso.jsf')"/>
@@ -33,7 +32,7 @@
 	<!-- The AuthenticationEntryPoint is responsible for redirecting the user to a particular page, like a login page,
  			whenever the server sends back a response requiring authentication -->
  	<!-- See Spring-Security Reference 5.4.1 for more info -->
- 	<b:bean id="authenticationEntryPoint"  class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint" p:loginFormUrl="/login.jsf"/>
+ 	<b:bean id="authenticationEntryPoint"  class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint" p:loginFormUrl="/controleacesso/login.jsf"/>
 	<!-- The tag below has no use but Spring Security needs it to autowire the parent property of 
 			org.springframework.security.authentication.ProviderManager. Otherwise we get an error 
 			A probable bug. This is still under investigation-->
