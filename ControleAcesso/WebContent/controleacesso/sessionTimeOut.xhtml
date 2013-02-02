@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:p="http://primefaces.org/ui">
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
 	<script type='text/javascript' src="date.js"></script>  
@@ -12,16 +13,24 @@
          timeout="#{100}"
          onidle="startIdleMonitor()" rendered="#{(request.remoteUser != null)}"/>
        #{msg['logoff.soon.1']}
-       <span id="usuario" style="font-weight: bold ; font-size:12px;"> #{request.remoteUser == null ? 'Visitante' : request.remoteUser} #{request.remoteUser == null ? '' : ' - Sessão expira em: '} </span>
-       <span id="dialog-countdown" style="font-weight: bold ; font-size:12px;"></span>
-       &nbsp;&nbsp;
-       <h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
-           <h:outputText value="Sair" styleClass="button"/>
-       </h:outputLink>
+       <p:toolbar>  
+       		<p:toolbarGroup align="right">  		
+	       		<span id="usuario" style="font-weight: bold ; font-size:12px;"> #{request.remoteUser == null ? 'Visitante' : request.remoteUser}</span>
+       			<p:separator />
+       			<span id="textosessaoexpira" style="font-weight: bold ; font-size:12px;">#{request.remoteUser == null ? '' : 'Sessão expira em: '} </span>
+       			<span id="dialog-countdown" style="font-weight: bold ; font-size:12px;"></span>
+       			<p:separator />  
+	       		<p:commandButton type="button" 
+	       			value="#{request.remoteUser == null ? 'Login' : 'Sair'}" 
+	       			style="width: auto; height: 30px; font-size: 13px;" 
+	       			icon="ui-icon-extlink" 
+	       			onclick="logout()"/>  
+	    	</p:toolbarGroup>
+	    </p:toolbar>  
        #{msg['logoff.soon.2']}
         
         <p style="font-weight: bold;">#{msg['move.cursor']}</p>
-      	<p:dialog header="Sessão Expirada!" 
+      	<p:dialog header="Sessão Expirou!" 
       		resizable="false"  
             widgetVar="idleDialog" 
             modal="true" 
@@ -41,7 +50,7 @@
       var countTimer = TIME;
       var processTimer;
       var timer_is_on = 0;
-      var redirectPage = "#{request.contextPath}/login.jsf";
+      var redirectPage = "#{request.contextPath}/controleacesso/login.jsf";
 
       var countDownDiv = "dialog-countdown";
       var txtCountDown = null;
@@ -79,6 +88,11 @@
       	clearTimeout(processTimer);
       	timer_is_on = 0;
       	keepAlive();
+      }
+
+      function logout(){
+    	  	window.location.href = "#{facesContext.externalContext.requestContextPath}/j_spring_security_logout";
+    		return;
       }
       </script>
 </ui:composition>

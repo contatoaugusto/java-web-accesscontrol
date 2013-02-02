@@ -48,7 +48,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	public Authentication authenticate(Authentication auth)
 			throws AuthenticationException {
 
-		log.debug("Na classe CustomAuthenticationManager. Iniciando o mÃ©todo authenticate()");
+		log.debug("Na classe CustomAuthenticationManager. Iniciando o método authenticate()");
 
 		Usuario usuario = null;
 		
@@ -90,8 +90,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	}
 
 	/**
-	 * Retorna tipo ROLE dependendo do nÃ­vel de acesso, onde o nÃ­vel de acesso Ã©
-	 * um Integer.
+	 * Retorna tipo ROLE dependendo do nível de acesso, o qual é definido por um Integer.
 	 * 
 	 * @param access
 	 *            an integer value representing the access of the user
@@ -137,7 +136,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	}
 
 	/**
-	 * Preenche lista de autorizaÃ§Ãµes conforme recursos a que o usuario tenha acesso.
+	 * Preenche lista de autorizações conforme recursos a que o usuario tenha acesso.
 	 * Retorna
 	 * @param username
 	 * @return Collection<GrantedAuthority>
