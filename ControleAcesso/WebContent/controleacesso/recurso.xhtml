@@ -24,8 +24,8 @@
         	<p:layoutUnit styleClass="layoutUnitCenter" position="center">
         		<h:body >
 			        <p:panel header="#{recursoController.message}" style="font-size:small;padding:0px;">  
-				        <p:commandButton value="Novo" icon="ui-icon-disk" actionListener="#{recursoController.prepararAdicionarRecurso}" update=":form"  oncomplete="dialog.show();"/> 
-			        <h:form id="form" prependId="false" enctype="multipart/form-data">
+				        <p:commandButton value="Novo" icon="ui-icon-disk" actionListener="#{recursoController.prepararAdicionarRecurso}" update=":formcontroleacesso"  oncomplete="dialog.show();"/> 
+			        <h:form id="formcontroleacesso" prependId="false" enctype="multipart/form-data">
 				     	<p:dataTable var="recurso" id="dataTabelRecurso" value="#{recursoController.listarRecurso}" > 
 			 	 	       
 			 	 	       <p:column headerText="Código Recurso">  
@@ -70,12 +70,12 @@
 				       	  </p:column>
 				  	       <p:column headerText="Alterar">  
 				             	<center>
-				             			<p:commandButton icon="ui-icon-pencil" actionListener="#{recursoController.prepararAlterarRecurso}" update=":form" oncomplete="dialog.show();"/>
+				             			<p:commandButton icon="ui-icon-pencil" actionListener="#{recursoController.prepararAlterarRecurso}" update=":formcontroleacesso" oncomplete="dialog.show();"/>
 				                </center>
 				       	   </p:column>  
 				           <p:column headerText="Excluir">  
 				                <center>
-				                    	<p:commandButton action="#{recursoController.excluirRecurso}" update=":form" icon="ui-icon-trash"/>
+				                    	<p:commandButton action="#{recursoController.excluirRecurso}" update=":formcontroleacesso" icon="ui-icon-trash"/>
 				                </center>
 				        	</p:column>
 				        </p:dataTable>  
@@ -138,10 +138,10 @@
 		                    </h:panelGrid>
  							<h:panelGrid style="font-size:small;padding:0px;" >
 			                    <p:column colspan="4" cellpadding="5" style="float: center;"> 
-				                    <p:commandButton update=":form"  oncomplete="dialog.hide();"  value="Inserir" 
+				                    <p:commandButton update=":formcontroleacesso"  oncomplete="dialog.hide();"  value="Inserir" 
 				                    	actionListener="#{recursoController.adicionarRecurso}" />			                    	
 				                    
-				                    <p:commandButton   update=":form" oncomplete="dialog.hide();" value="Alterar"
+				                    <p:commandButton   update=":formcontroleacesso" oncomplete="dialog.hide();" value="Alterar"
 				                    	actionListener="#{recursoController.alterarRecurso}" />
 			                	</p:column>
 			                </h:panelGrid>

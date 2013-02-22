@@ -24,8 +24,8 @@
         	<p:layoutUnit styleClass="layoutUnitCenter" position="center">
         		<h:body >
 			        <p:panel header="#{pessoaController.message}" footer="Listagem de Pessoas" style="font-size:small;padding:0px;">  
-				        <p:commandButton value="Novo" icon="ui-icon-disk" actionListener="#{pessoaController.prepararAdicionarPessoa}" update=":form"  oncomplete="dialogPessoa.show();" disabled="#{!permissaoController.hasPermission('pessoa.jsf')}"/> 
-			        <h:form id="form" prependId="false" enctype="multipart/form-data">
+				        <p:commandButton value="Novo" icon="ui-icon-disk" actionListener="#{pessoaController.prepararAdicionarPessoa}" update=":formcontroleacesso"  oncomplete="dialogPessoa.show();" disabled="#{!permissaoController.hasPermission('pessoa.jsf')}"/> 
+			        <h:form id="formcontroleacesso" prependId="false" enctype="multipart/form-data">
 				     	<p:dataTable var="pessoa" id="dataTabelPessoa" value="#{pessoaController.listarPessoa}" > 
 			 	 	       
 				  	      <p:column headerText="Nome">  
@@ -35,12 +35,12 @@
 				       	  </p:column>  
 				  	       <p:column headerText="Alterar">  
 				             	<center>
-				             			<p:commandButton icon="ui-icon-pencil" actionListener="#{pessoaController.prepararAlterarPessoa}" update=":form" oncomplete="dialogPessoa.show();" disabled="#{!permissaoController.hasPermission('pessoa.jsf')}"/>
+				             			<p:commandButton icon="ui-icon-pencil" actionListener="#{pessoaController.prepararAlterarPessoa}" update=":formcontroleacesso" oncomplete="dialogPessoa.show();" disabled="#{!permissaoController.hasPermission('pessoa.jsf')}"/>
 				                </center>
 				       	   </p:column>  
 				           <p:column headerText="Excluir">  
 				                <center>
-				                    	<p:commandButton action="#{pessoaController.excluirPessoa}" update=":form" icon="ui-icon-trash" disabled="#{!permissaoController.hasPermission('pessoa.jsf')}"/>
+				                    	<p:commandButton action="#{pessoaController.excluirPessoa}" update=":formcontroleacesso" icon="ui-icon-trash" disabled="#{!permissaoController.hasPermission('pessoa.jsf')}"/>
 				                </center>
 				        	</p:column>
 				        </p:dataTable>  
@@ -56,9 +56,9 @@
 			                </h:panelGrid>
 			 				<h:panelGrid columns="3" cellpadding="5" style="font-size:small;padding:0px;">
 			 
-			                    <p:commandButton update=":form"  oncomplete="dialogPessoa.hide();"  value="Inserir" 
+			                    <p:commandButton update=":formcontroleacesso"  oncomplete="dialogPessoa.hide();"  value="Inserir" 
 			                    	actionListener="#{pessoaController.adicionarPessoa}"/>
-			                    <p:commandButton   update=":form" oncomplete="dialogPessoa.hide();" value="Alterar"
+			                    <p:commandButton   update=":formcontroleacesso" oncomplete="dialogPessoa.hide();" value="Alterar"
 			                    	actionListener="#{pessoaController.alterarPessoa}" />
 			                </h:panelGrid>
 			   		</p:dialog> 
