@@ -24,8 +24,8 @@
         	<p:layoutUnit styleClass="layoutUnitCenter" position="center">
         		<h:body >
 			        <p:panel header="#{perfilController.message}" footer="Listagem de Perfils" style="font-size:small;padding:0px;">  
-				        <p:commandButton value="Novo" icon="ui-icon-disk" actionListener="#{perfilController.prepararAdicionarPerfil}" update=":form"  oncomplete="dialogPerfil.show();"/> 
-			        <h:form id="form" prependId="false" enctype="multipart/form-data">
+				        <p:commandButton value="Novo" icon="ui-icon-disk" actionListener="#{perfilController.prepararAdicionarPerfil}" update=":formcontroleacesso"  oncomplete="dialogPerfil.show();"/> 
+			        <h:form id="formcontroleacesso" prependId="false" enctype="multipart/form-data">
 				     	<p:dataTable var="perfil" id="dataTabelPerfil" value="#{perfilController.listarPerfil}" > 
 			 	 	       
 				  	      <p:column headerText="Nome">  
@@ -40,12 +40,12 @@
 				       	  </p:column>
 				  	       <p:column headerText="Alterar">  
 				             	<center>
-				             			<p:commandButton icon="ui-icon-pencil" actionListener="#{perfilController.prepararAlterarPerfil}" update=":form" oncomplete="dialogPerfil.show();"/>
+				             			<p:commandButton icon="ui-icon-pencil" actionListener="#{perfilController.prepararAlterarPerfil}" update=":formcontroleacesso" oncomplete="dialogPerfil.show();"/>
 				                </center>
 				       	   </p:column>  
 				           <p:column headerText="Excluir">  
 				                <center>
-				                    	<p:commandButton action="#{perfilController.excluirPerfil}" update=":form" icon="ui-icon-trash"/>
+				                    	<p:commandButton action="#{perfilController.excluirPerfil}" update=":formcontroleacesso" icon="ui-icon-trash"/>
 				                </center>
 				        	</p:column>
 				        </p:dataTable>  
@@ -64,9 +64,9 @@
 			                </h:panelGrid>
 			 				<h:panelGrid columns="3" cellpadding="5" style="font-size:small;padding:0px;">
 			 
-			                    <p:commandButton update=":form"  oncomplete="dialogPerfil.hide();"  value="Inserir" 
+			                    <p:commandButton update=":formcontroleacesso"  oncomplete="dialogPerfil.hide();"  value="Inserir" 
 			                    	actionListener="#{perfilController.adicionarPerfil}"/>
-			                    <p:commandButton   update=":form" oncomplete="dialogPerfil.hide();" value="Alterar"
+			                    <p:commandButton   update=":formcontroleacesso" oncomplete="dialogPerfil.hide();" value="Alterar"
 			                    	actionListener="#{perfilController.alterarPerfil}" />
 			                </h:panelGrid>
 			   		</p:dialog> 
