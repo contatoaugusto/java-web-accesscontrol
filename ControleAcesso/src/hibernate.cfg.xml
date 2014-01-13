@@ -5,8 +5,8 @@
   <session-factory name="dataSourceHibernate" >
   
 	  <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-	  <property name="hibernate.connection.password">Zaq12wsX</property>
-	  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/livraria</property>
+	  <property name="hibernate.connection.password">admin</property>
+	  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sgdq</property>
 	  <property name="hibernate.connection.username">postgres</property>
 	  <property name="hibernate.default_schema">dbo</property>
 	  <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
