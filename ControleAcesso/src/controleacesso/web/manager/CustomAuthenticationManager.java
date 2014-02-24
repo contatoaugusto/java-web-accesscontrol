@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,10 +19,10 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import controleacesso.web.dao.UsuarioDao;
-import controleacesso.web.modelo.Perfil;
-import controleacesso.web.modelo.Recurso;
-import controleacesso.web.modelo.Usuario;
+import controleacesso.web.dao.ControleAcessoUsuarioDao;
+import controleacesso.web.modelo.ControleAcessoPerfil;
+import controleacesso.web.modelo.ControleAcessoRecurso;
+import controleacesso.web.modelo.ControleAcessoUsuario;
 
 
 /**
@@ -45,21 +47,25 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
 		log.debug("Na classe CustomAuthenticationManager. Iniciando o mÈtodo authenticate()");
 
-		Usuario usuario = null;
+		ControleAcessoUsuario usuario = null;
 		
 		try {
 
-			UsuarioDao usuariohome = new UsuarioDao();
+			ControleAcessoUsuarioDao usuariohome = new ControleAcessoUsuarioDao();
 			usuario = usuariohome.findUsuarioByName(auth.getName());
 
 			if (usuario == null) {
 				log.error("Usu·rio " + auth.getName() + " n„o encontrado!");
 				throw new BadCredentialsException("Usu·rio " + auth.getName() + " n„o encontrado!");
 			}
-		} catch (Exception e) {
+		} catch (NoResultException e) {
+			log.error(e.getMessage());
+			throw new BadCredentialsException(e.getMessage());
+		}catch (Exception e) {
 			log.error(e.getMessage());
 			throw new BadCredentialsException(e.getMessage());
 		}
+		
 
 		// Comparar senhas
 		// Assegura que decodifica a senha antes de comparar
@@ -71,11 +77,11 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 
 		// Here's the main logic of this custom authentication manager
 		// Username and password must be the same to authenticate
-		if (auth.getName().equals(auth.getCredentials()) != true) {
-			log.debug("O usu·rio informado ou a senha incorretos!");
-			throw new BadCredentialsException("O usu·rio informado ou a senha incorretos!");
+//		if (!auth.getName().equals(auth.getCredentials())) {
+//			log.debug("O usu·rio informado ou a senha incorretos!");
+//			throw new BadCredentialsException("O usu·rio informado ou a senha incorretos!");
 
-		} else {
+//		} else {
 			// Em nossa abordagem, se chegou at√© aqui √© porque o usuario tem
 			// acesso ao recurso solicitado e pode prosseguir.
 			log.debug("Todos os dados do usu√°rio est√£o corretos e pronto pra prosseguir");
@@ -85,7 +91,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 			attr.getRequest().getSession().setAttribute("usuario", usuario);
 			return new UsernamePasswordAuthenticationToken(auth.getName(),
 					auth.getCredentials(), getAuthoritiesByUser(usuario));
-		}
+//		}
 	}
 
 	/**
@@ -140,12 +146,12 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 	 * @param username
 	 * @return Collection<GrantedAuthority>
 	 */
-	public Collection<GrantedAuthority> getAuthoritiesByUser(Usuario usuario) {
+	public Collection<GrantedAuthority> getAuthoritiesByUser(ControleAcessoUsuario usuario) {
 
 		List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
 
-		for (Perfil perfil : usuario.getTbperfils()) {
-			for (Recurso recurso : perfil.getTbrecursos()) {
+		for (ControleAcessoPerfil perfil : usuario.getTbperfils()) {
+			for (ControleAcessoRecurso recurso : perfil.getTbrecursos()) {
 				authList.add(new GrantedAuthorityImpl(recurso.getLkLink()
 						.replace('/', ' ').trim()));
 			}
