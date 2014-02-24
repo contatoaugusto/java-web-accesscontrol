@@ -5,15 +5,13 @@
 package controleacesso.web.util;
 
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import controleacesso.web.modelo.Perfil;
-import controleacesso.web.modelo.Pessoa;
-import controleacesso.web.modelo.Recurso;
-import controleacesso.web.modelo.Usuario;
+import controleacesso.web.modelo.ControleAcessoPerfil;
+import controleacesso.web.modelo.ControleAcessoPessoa;
+import controleacesso.web.modelo.ControleAcessoRecurso;
+import controleacesso.web.modelo.ControleAcessoUsuario;
 
 
 /**
@@ -36,10 +34,10 @@ public class HibernateUtil {
                 // Create the SessionFactory from standard (hibernate.cfg.xml)
                 // config file.
                 AnnotationConfiguration ac = new AnnotationConfiguration();
-                ac.addAnnotatedClass(Pessoa.class);
-                ac.addAnnotatedClass(Usuario.class);
-                ac.addAnnotatedClass(Recurso.class);
-                ac.addAnnotatedClass(Perfil.class);
+                ac.addAnnotatedClass(ControleAcessoPessoa.class);
+                ac.addAnnotatedClass(ControleAcessoUsuario.class);
+                ac.addAnnotatedClass(ControleAcessoRecurso.class);
+                ac.addAnnotatedClass(ControleAcessoPerfil.class);
 
                 
                 sessionFactory = ac.configure().buildSessionFactory();

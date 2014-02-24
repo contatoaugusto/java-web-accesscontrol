@@ -9,16 +9,16 @@
   	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
            http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
 	
      <http auto-config="false" use-expressions="true" entry-point-ref="authenticationEntryPoint">
         <!-- 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="customFilter" /> -->
         <custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
-        <intercept-url pattern="/controleacesso/login.jsf" filters="none"/>
+<!--         <intercept-url pattern="/controleacesso/login.jsf" filters="none"/> -->
         <logout logout-success-url="/controleacesso/login.jsf" />
 		
-		<intercept-url pattern="/index.jsf" access="hasRole('index.jsf')" />
+		<intercept-url pattern="/index.jsf" access="hasRole('index.xhtml')" />
 		<intercept-url pattern="/testeacesso.jsf" access="hasRole('testeacesso.jsf')"/>
 	</http>
   

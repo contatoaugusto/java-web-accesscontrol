@@ -2,10 +2,10 @@ package controleacesso.web.process;
 
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-import controleacesso.web.dao.UsuarioDao;
-import controleacesso.web.modelo.Perfil;
-import controleacesso.web.modelo.Recurso;
-import controleacesso.web.modelo.Usuario;
+import controleacesso.web.dao.ControleAcessoUsuarioDao;
+import controleacesso.web.modelo.ControleAcessoPerfil;
+import controleacesso.web.modelo.ControleAcessoRecurso;
+import controleacesso.web.modelo.ControleAcessoUsuario;
 
 
 /**
@@ -20,11 +20,11 @@ public class ControleAcessoProcess {
 	 */
 	public boolean verificaRecursoComAcesso (String nmLogin, String nmRecurso){
 		
-		UsuarioDao usuarioDAO = new UsuarioDao();
-		Usuario usuario = usuarioDAO.findUsuarioByName(nmLogin);
+		ControleAcessoUsuarioDao usuarioDAO = new ControleAcessoUsuarioDao();
+		ControleAcessoUsuario usuario = usuarioDAO.findUsuarioByName(nmLogin);
 		
-		for (Perfil perfil : usuario.getTbperfils()) {
-			for (Recurso recurso : perfil.getTbrecursos()) {
+		for (ControleAcessoPerfil perfil : usuario.getTbperfils()) {
+			for (ControleAcessoRecurso recurso : perfil.getTbrecursos()) {
 				if (recurso.getLkLink().replace('/', ' ').trim().equalsIgnoreCase(nmRecurso.replace('/', ' ').trim()) ){
 					return true;
 				}

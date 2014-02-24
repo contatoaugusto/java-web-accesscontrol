@@ -14,8 +14,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-import controleacesso.web.dao.UsuarioDao;
-import controleacesso.web.modelo.Usuario;
+import controleacesso.web.dao.ControleAcessoUsuarioDao;
+import controleacesso.web.modelo.ControleAcessoUsuario;
 
 
 public class AutorizacaoHandler {
@@ -23,7 +23,7 @@ public class AutorizacaoHandler {
 	private static final Log log = LogFactory.getLog(AutorizacaoHandler.class);
 	
 	// Our custom DAO layer
-	private UsuarioDao usuarioDao = new UsuarioDao();
+	private ControleAcessoUsuarioDao usuarioDao = new ControleAcessoUsuarioDao();
 
 	// We need an Md5 encoder since our passwords in the database are Md5
 	// encoded.
@@ -36,7 +36,7 @@ public class AutorizacaoHandler {
 	public Authentication authenticate(Authentication auth, String recursoRequisitado)
 			throws AuthenticationException {
 
-		Usuario usuario = null;
+		ControleAcessoUsuario usuario = null;
 
 		try {
 			if (recursoRequisitado != null)
